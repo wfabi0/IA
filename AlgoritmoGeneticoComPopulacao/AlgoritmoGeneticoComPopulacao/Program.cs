@@ -44,6 +44,7 @@ namespace AlgoritmoGeneticoComPopulacao
 
             Console.WriteLine($"População inicial: {populationSize} cromossomos");
 
+            int maxInterations = 1000;
             string bestCromossomoOverall = population[0];
             double bestResultOverall = EvaluateCromossomo(bestCromossomoOverall);
 
@@ -55,65 +56,75 @@ namespace AlgoritmoGeneticoComPopulacao
                     bestCromossomoOverall = population[i];
                     bestResultOverall = result;
                 }
-            }
+            }   
+
             Console.WriteLine($"Melhor da população inicial: {bestCromossomoOverall} | {bestResultOverall}");
 
-            // Crossing-Over
-
-            string[] newPopulation = new string[populationSize];
-
-            for (int i = 0; i < populationSize / 2; i++)
+            for (int generation = 0; generation < maxInterations; generation++)
             {
-                string daddy = population[2 * i];
-                string mommy = population[2 * i + 1];
 
-                string[] newChildren = crossingOver(daddy, mommy);
-                newPopulation[2 * i] = newChildren[0];
-                newPopulation[2 * i + 1] = newChildren[1];
-            }
-            Console.WriteLine("Filhos gerados através do crossover, população atualizada.");
+                string[] newPopulation = new string[populationSize];
 
-            population = newPopulation;
-
-            // depois disso verificar se os novos filhos sao melhores
-            // e ai sim fazer mutação
-
-            Console.WriteLine("Avaliando os filhos e procurando melhor cromossomo..");
-            for (int i = 1; i < population.Length; i++)
-            {
-                double result = EvaluateCromossomo(population[i]);
-                if (result < bestResultOverall)
+                // Gerar filhos
+                for (int i = 0; i < populationSize / 2; i++)
                 {
-                    bestCromossomoOverall = population[i];
-                    bestResultOverall = result;
-                }
-            }
+                    string daddy = population[2 * i];
+                    string mommy = population[2 * i + 1];
 
-            Console.WriteLine($"Melhor filho encontrado: {bestCromossomoOverall} | {bestResultOverall}\n");
+                    string[] newChildren = crossingOver(daddy, mommy);
+                    newPopulation[2 * i] = newChildren[0];
+                    newPopulation[2 * i + 1] = newChildren[1];
 
-            // Mutação
-            for (int i = 1; i <= 10000; i++)
-            {
-                for (int j = 0; j < population.Length; j++)
-                {
-                    // Mutação
-                    string cromossomo = population[j];
-                    int pos = rand.Next(cromossomo.Length);
-                    string mutated = Mutate(cromossomo, pos);
+                    double result1 = EvaluateCromossomo(newChildren[0]);
+                    double result2 = EvaluateCromossomo(newChildren[1]);
 
-                    double resultMutated = EvaluateCromossomo(mutated);
+                    // Console.WriteLine(result1 + " " + result2);
 
-                    if (resultMutated < bestResultOverall)
+                    if (result1 < bestResultOverall)
                     {
-                        bestCromossomoOverall = mutated;
-                        bestResultOverall = resultMutated;
+                        bestResultOverall = result1;
+                        bestCromossomoOverall = newChildren[0];
+                    } 
+                    if (result2 < bestResultOverall)
+                    {
+                        bestResultOverall = result2;
+                        bestCromossomoOverall = newChildren[1];
                     }
                 }
 
-                if ((i + 1) % 1000 == 0)
+                Console.WriteLine($"Geração {generation + 1}: Melhor filho encontrado na população: {bestCromossomoOverall} | {bestResultOverall}");
+
+                population = newPopulation;
+
+                // mutação
+                for (int mutation = 0; mutation < population.Length; mutation++)
                 {
-                    Console.WriteLine($"Iteração {i + 1}: Melhor cromossomo encontrado até o momento: {bestCromossomoOverall} | {bestResultOverall}");
+                    // probabilidade de nao mutar
+                    double probability = rand.NextDouble();
+                    if (probability <= 0.2)
+                    {
+                        string cromossomo = population[mutation];
+                        int pos = rand.Next(cromossomo.Length);
+                        string mutated = Mutate(cromossomo, pos);
+
+                        population[mutation] = mutated;
+                        double resultMutated = EvaluateCromossomo(mutated);
+
+                        // Console.WriteLine(mutated);
+
+                        if (resultMutated < bestResultOverall)
+                        {
+                            bestCromossomoOverall = mutated;
+                            bestResultOverall = resultMutated;
+                        }
+                    }
                 }
+
+                if ((generation + 1) % 1000 == 0)
+                {
+                    Console.WriteLine($"Geração {generation + 1}: Melhor cromossomo encontrado até o momento: {bestCromossomoOverall} | {bestResultOverall}");
+                }
+
             }
 
             string[] bestSplit = separete(bestCromossomoOverall);
