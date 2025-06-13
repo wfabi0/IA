@@ -1,9 +1,9 @@
-# Programação Evolutiva (PE)
+# ProgramaÃ§Ã£o GenÃ©tica (GP)
 
-Este projeto é uma implementação de um algoritmo de Programação Genética (GP), desenvolvido em C#. O objetivo é encontrar automaticamente uma função matemática que mapeie um conjunto de entradas para suas respectivas saídas esperadas.
+Este projeto Ã© uma implementaÃ§Ã£o de um algoritmo de ProgramaÃ§Ã£o GenÃ©tica (GP) simples, desenvolvido em C#. O objetivo Ã© encontrar uma funÃ§Ã£o matemÃ¡tica que mapeie corretamente um conjunto de entradas para suas respectivas saÃ­das esperadas, utilizando operadores evolutivos inspirados na seleÃ§Ã£o natural.
 
-## O que é Programação Evolutiva?
+## O que Ã© ProgramaÃ§Ã£o GenÃ©tica?
 
-A Programação Evolutiva é um paradigma da Computação Evolucionária que simula o processo de evolução de organismos, mantendo uma população de soluções que evolui ao longo do tempo com base em operadores como mutação, seleção, e eventualmente recombinação.
+A ProgramaÃ§Ã£o GenÃ©tica (GP) Ã© um paradigma da ComputaÃ§Ã£o EvolucionÃ¡ria que automatiza a criaÃ§Ã£o de programas de computador ou expressÃµes matemÃ¡ticas por meio de princÃ­pios de evoluÃ§Ã£o biolÃ³gica, como seleÃ§Ã£o, crossover e mutaÃ§Ã£o.
 
-Diferentemente dos Algoritmos Genéticos tradicionais (que operam em representações genotípicas como vetores binários), a Programação Genética trabalha com árvores de expressão (representando programas ou funções matemáticas), o que a torna adequada para a evolução de algoritmos e equações.
+Diferente dos Algoritmos GenÃ©ticos tradicionais, que operam sobre vetores fixos de dados (como arrays binÃ¡rios ou nÃºmeros reais), a GP trabalha com estruturas de Ã¡rvore, onde cada indivÃ­duo representa um programa ou equaÃ§Ã£o composta por operadores (como `+`, `-`, `*`, `/`), constantes e variÃ¡veis.
